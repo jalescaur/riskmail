@@ -1,0 +1,2 @@
+streamlit>=1.40
+latex2mathml>=3.76
