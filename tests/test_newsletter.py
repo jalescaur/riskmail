@@ -79,6 +79,15 @@ class RenderTests(unittest.TestCase):
         self.assertIn("color:#abcdef", html)
         self.assertIn("font-size:19px", html)
 
+    def test_banner_is_plain_with_hairline_and_footer_keeps_unb_blue(self):
+        html = render("texto", theme())
+        banner = html.split('class="px-banner"')[1].split('class="px-body"')[0]
+        self.assertIn("background-color:#ffffff", banner)
+        self.assertIn("color:#1a1a1a", banner)
+        self.assertIn("border-bottom:1px solid #dfe3e8", banner)
+        self.assertNotIn("border-bottom", render("texto", theme(banner_border_w=0)).split('class="px-body"')[0])
+        self.assertIn('class="px-footer" bgcolor="#003366"', html)
+
     def test_center_name_only_changes_in_english(self):
         names = {lang: theme(lang)["center_name"] for lang in LANGS}
         self.assertEqual(names["pt"], "Centro de Estudos Globais")
@@ -136,7 +145,7 @@ class TokenAndProfileTests(unittest.TestCase):
         out = tk.sanitize_profile({"tokens": {"banner_bg": "azul", "nao_existe": 1, "text_size": 999,
                                               "font_body": "Comic Sans"},
                                    "texts": {"pt": {"tagline": "Olá"}, "xx": {"tagline": "?"}}})
-        self.assertEqual(out["tokens"]["banner_bg"], "#003366")
+        self.assertEqual(out["tokens"]["banner_bg"], "#ffffff")
         self.assertEqual(out["tokens"]["text_size"], 22)
         self.assertEqual(out["tokens"]["font_body"], "Arial")
         self.assertNotIn("nao_existe", out["tokens"])

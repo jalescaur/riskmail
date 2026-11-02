@@ -288,8 +288,10 @@ def _banner(t: dict) -> str:
             t["banner_edition_gap"]))
 
     pad = f'{_px(t["banner_pad_top"])} 32px {_px(t["banner_pad_bottom"])}'
+    border = (f';border-bottom:{t["banner_border_w"]}px solid {t["banner_border_color"]}'
+              if t["banner_border_w"] > 0 else "")
     return (f'<td class="px-banner" align="center" bgcolor="{t["banner_bg"]}" '
-            f'style="background-color:{t["banner_bg"]};padding:{pad};text-align:center">'
+            f'style="background-color:{t["banner_bg"]};padding:{pad};text-align:center{border}">'
             f'<table {_TBL}>{"".join(rows)}</table></td>')
 
 
